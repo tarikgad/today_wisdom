@@ -97,13 +97,6 @@ bot.commons["owner"] = process.env.owner;
 bot.commons["support"] = process.env.support;
 bot.commons["nickname"] = process.env.BOT_NICKNAME || "unknown";
 
-// Start Bot API
-const port = process.env.PORT || 10000;
-
-controller.webserver.listen(port, () => {
-    console.log(`Webhook handler is listening on port ${port}`);
-});
-
 // Load skills
 var normalizedPath = require("path").join(__dirname, "skills");
 require("fs").readdirSync(normalizedPath).forEach(function (file) {
