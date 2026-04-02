@@ -20,6 +20,7 @@ const controller = new Botkit({
     webserver_device_details: true
 });
 
+
 // 4. Healthcheck & Metadata
 const botStatus = {
     healthcheck: process.env.PUBLIC_URL + "/ping",
@@ -80,7 +81,15 @@ if (!process.env.PUBLIC_URL) {
 var env = process.env.NODE_ENV || "development";
 
 // Load BotCommons properties
-bot.commons = {};
+const bot = controller.spawn({});
+
+bot.commons = {
+    "owner": process.env.owner || "Tarik",
+    "support": process.env.support || "N/A",
+    "up-since": new Date().toGMTString(),
+    "version": require("./package.json").version
+};
+
 bot.commons["healthcheck"] = process.env.PUBLIC_URL + "/ping";
 bot.commons["up-since"] = new Date(Date.now()).toGMTString();
 bot.commons["version"] = "v" + require("./package.json").version;
