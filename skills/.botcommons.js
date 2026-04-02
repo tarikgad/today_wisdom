@@ -8,7 +8,7 @@ module.exports = function (controller) {
         // Build a fresh metadata object for the response
         const stats = {
             "status": "online",
-            "owner": process.env.OWNER || "Tarik",
+            "owner": process.env.OWNER || "Tarik Gad",
             "uptime": new Date().toGMTString(),
             "platform": "Render/Node.js",
             "version": "1.0.0"
