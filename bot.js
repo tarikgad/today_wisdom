@@ -1,4 +1,47 @@
-//
+const { WebexAdapter } = require('botbuilder-adapter-webex');
+const { Botkit } = require('botkit');
+const path = require('path');
+const fs = require('fs');
+
+// 1. Load env variables (Modern way)
+require('dotenv').config();
+
+// 2. Initialize the Webex Adapter
+const adapter = new WebexAdapter({
+    access_token: process.env.WEBEX_ACCESS_TOKEN || process.env.SPARK_TOKEN,
+    public_address: process.env.PUBLIC_URL,
+    secret: process.env.SECRET
+});
+
+// 3. Initialize Botkit
+const controller = new Botkit({
+    webhook_uri: '/api/messages',
+    adapter: adapter,
+    webserver_device_details: true
+});
+
+// 4. Healthcheck & Metadata
+const botStatus = {
+    healthcheck: process.env.PUBLIC_URL + "/ping",
+    "up-since": new Date().toGMTString(),
+    version: "v" + require("./package.json").version,
+    owner: process.env.owner || "Tarik"
+};
+
+controller.webserver.get('/ping', (req, res) => {
+    res.json(botStatus);
+});
+
+// 5. Load Skills (Maintains your original architecture)
+const skillsPath = path.join(__dirname, 'skills');
+if (fs.existsSync(skillsPath)) {
+    fs.readdirSync(skillsPath).forEach((file) => {
+        require(path.join(skillsPath, file))(controller);
+        console.log(`Loaded skill: ${file}`);
+    });
+}
+
+console.log("Bot is online and listening for Webex Webhooks!");//
 // Copyright (c) 2017 Cisco Systems
 // Licensed under the MIT License 
 //
