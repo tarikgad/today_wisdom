@@ -1,26 +1,16 @@
 //
-// Fallback Command
+// Fallback Skill: Handles any message that doesn't match a command
 //
 module.exports = function (controller) {
 
-    // Catch-all regex to handle unrecognized inputs
-    controller.hears(['.*'], 'message,direct_message,direct_mention', async (bot, message) => {
+    controller.on('message,direct_message', async (bot, message) => {
         
-        // Use a cleaner markdown format for Webex
-        let fallbackMessage = "Sorry, I did not understand.\n\nTry " 
-            + bot.enrichCommand(message, "help");
-            
-        await bot.reply(message, fallbackMessage);
-    });
-}//
-// Fallback Command
-//
-module.exports = function (controller) {
+        let text = "I'm sorry, I didn't quite understand that. ";
+        
+        // In Botkit v4, we just provide the command string directly
+        // rather than using the removed enrichCommand function.
+        text += "\nTry typing `help` to see what I can do.";
 
-    controller.hears(["(.*)"], 'direct_message,direct_mention', function (bot, message) {
-        var mardown = "Sorry, I did not understand.<br/>Try "
-            + bot.enrichCommand(message, "help");
-            
-        bot.reply(message, mardown);
+        await bot.reply(message, text);
     });
 }
