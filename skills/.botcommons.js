@@ -1,36 +1,24 @@
 //
-// Command: bot commons (Metadata & Health)
+// Command: about
 //
 module.exports = function (controller) {
 
-    // Fixed the regex to correctly catch 'about', 'commons', 'bot', or 'ping'
-    controller.hears(["^about", "^commons", "^bot", "^ping"], 'message,direct_message,direct_mention', async (bot, message) => {
+    controller.hears(['about', 'ping', 'uptime'], 'message,direct_message', async (bot, message) => {
         
-        // Pulling from the commons object we set up in bot.js
-        // We use a fallback empty string if the variable isn't set to prevent 'undefined' in the JSON
-        const metadata = {
-            owner: process.env.owner || "Tarik",
-            support: process.env.support || "N/A",
-            "up-since": new Date().toGMTString(), // Or pull from bot.commons if you prefer
-            version: require("../package.json").version
+        // Build a fresh metadata object for the response
+        const stats = {
+            "status": "online",
+            "owner": process.env.OWNER || "Tarik",
+            "uptime": new Date().toGMTString(),
+            "platform": "Render/Node.js",
+            "version": "1.0.0"
         };
 
-        // Format as a clean JSON block for Webex
-        const jsonResponse = '```json\n' + JSON.stringify(metadata, null, 4) + '\n```';
-        
-        await bot.reply(message, jsonResponse);
-    });
-};//
-// Command: bot commons
-//
-module.exports = function (controller) {
+        let text = "### Bot Metadata\n";
+        text += "```json\n";
+        text += JSON.stringify(stats, null, 4);
+        text += "\n```";
 
-    controller.hears(["^\about", "^\commons", "^\bot", "^ping"], 'direct_message,direct_mention', function (bot, message) {
-        var metadata = '{\n'
-            + '   "owner"       : "' + bot.commons["owner"] + '",\n'
-            + '   "support"     : "' + bot.commons["support"] + '",\n'
-            + '   "up-since"    : "' + bot.commons["up-since"] + '",\n'
-            + '}\n';
-        bot.reply(message, '```json\n' + metadata + '\n```');
+        await bot.reply(message, text);
     });
 }
