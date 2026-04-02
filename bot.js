@@ -56,11 +56,11 @@ env(__dirname + '/.env');
 // BotKit initialization
 //
 
-if (!process.env.SPARK_TOKEN) {
-    console.log("Could not start as bots require a Cisco Spark API access token.");
+if (!process.env.WEBEX_ACCESS_TOKEN) {
+    console.log("Could not start as bots require a Cisco Webex API access token.");
     console.log("Please add env variable SPARK_TOKEN on the command line or to the .env file");
     console.log("Example: ");
-    console.log("> SPARK_TOKEN=XXXXXXXXXXXX PUBLIC_URL=YYYYYYYYYYYYY node bot.js");
+    console.log("> WEBEX_ACCESS_TOKEN=XXXXXXXXXXXX PUBLIC_URL=YYYYYYYYYYYYY node bot.js");
     process.exit(1);
 }
 
@@ -73,17 +73,6 @@ if (!process.env.PUBLIC_URL) {
 }
 
 var env = process.env.NODE_ENV || "development";
-
-var controller = Botkit.sparkbot({
-    log: true,
-    public_address: process.env.PUBLIC_URL,
-    ciscospark_access_token: process.env.SPARK_TOKEN,
-    secret: process.env.SECRET, // this is a RECOMMENDED security setting that checks of incoming payloads originate from Cisco Spark
-    webhook_name: process.env.WEBHOOK_NAME || ('built with BotKit (' + env + ')')
-});
-
-var bot = controller.spawn({
-});
 
 // Load BotCommons properties
 bot.commons = {};
