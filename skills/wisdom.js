@@ -1,13 +1,69 @@
 module.exports = function (controller) {
 
-    controller.hears(["wisdom","today wisdom","wisdoms"], 'direct_message,direct_mention', function (bot, message) {
-		var wisdoms_text = ["A blind person who sees is better than a seeing person who is blind.","A crown's no cure for a headache.","A new broom sweeps clean but an old broom knows the corners.","A proverb is a short sentence based on long experience.","A proverb is one man's wit and all men's wisdom.","All's well that ends well.","Common sense is genius dressed in its working clothes.","Deal with the faults of others as gently as your own.","Economy is the wealth of the poor and the wisdom of the rich.","Even a fish wouldn't get into trouble if it kept its mouth shut.","Everything in moderation.","Give a man a fish and you feed him for a day; teach a man to fish and he'll eat forever.","He that respects himself is safe from others.","He who flees at the right time can fight again.","He who has a why to live can bear almost any how.","Health is better than wealth.","In bad things be slow; in good things be fast.","Just because something is common sense doesn't mean it's common practice.","Justice is truth in action.","Life is a journey, not a destination.","Life is what you make it.","Live and let live.","Lost time is never found again.","Money buys everything but good sense.","Nothing is impossible to the willing mind.","One head cannot hold all wisdom.","One should speak little with others and much with oneself.","Out of sight, out of mind.","Plan your life at New Year's, your day at dawn.","Plan your life like you will live forever, and live your life like you will die the next day.","Proverbs are the daughters of experience.","Silence is often misinterpreted but never misquoted.","The errors of a wise man make your rule rather than the perfections of a fool.","The more things change, the more they stay the same.","The truly rich are those who enjoy what they have.","The wise do as much as they should, not as much as they can.","The wise understand by themselves; fools follow the reports of others.","What's good for the goose is good for the gander.","When you say one thing, the clever person understands three.","Wisdom is easy to carry but difficult to gather.","Wisdom is ofttimes nearer when we stoop than when we soar.","Wisdom is to live in the present, plan for the future and profit from the past.","Wonder is the beginning of wisdom.","You can lead a horse to water but you can't make him drink.","You can never plan the future by the past.","You can only die once.","You have to take the bitter with the sweet."]; //0-46
-		var day_date = new Date().getDate(); //1-31
-		var week_day = new Date().getDay()+1; //1-7
-		var year = new Date().getFullYear();
-		var month = new Date().getMonth()+1; //1-12
-		var my_key = (day_date*week_day*year*month)%47;
-		var text2 = wisdoms_text[my_key];
-		bot.reply(message, "Today Wisdom" + "\n- " + text2);
+    // Added 'message' to the triggers to ensure it catches all Webex text events
+    controller.hears(["wisdom", "today wisdom", "wisdoms"], 'message,direct_message,direct_mention', async (bot, message) => {
+        
+        const wisdoms_text = [
+            "A blind person who sees is better than a seeing person who is blind.",
+            "A crown's no cure for a headache.",
+            "A new broom sweeps clean but an old broom knows the corners.",
+            "A proverb is a short sentence based on long experience.",
+            "A proverb is one man's wit and all men's wisdom.",
+            "All's well that ends well.",
+            "Common sense is genius dressed in its working clothes.",
+            "Deal with the faults of others as gently as your own.",
+            "Economy is the wealth of the poor and the wisdom of the rich.",
+            "Even a fish wouldn't get into trouble if it kept its mouth shut.",
+            "Everything in moderation.",
+            "Give a man a fish and you feed him for a day; teach a man to fish and he'll eat forever.",
+            "He that respects himself is safe from others.",
+            "He who flees at the right time can fight again.",
+            "He who has a why to live can bear almost any how.",
+            "Health is better than wealth.",
+            "In bad things be slow; in good things be fast.",
+            "Just because something is common sense doesn't mean it's common practice.",
+            "Justice is truth in action.",
+            "Life is a journey, not a destination.",
+            "Life is what you make it.",
+            "Live and let live.",
+            "Lost time is never found again.",
+            "Money buys everything but good sense.",
+            "Nothing is impossible to the willing mind.",
+            "One head cannot hold all wisdom.",
+            "One should speak little with others and much with oneself.",
+            "Out of sight, out of mind.",
+            "Plan your life at New Year's, your day at dawn.",
+            "Plan your life like you will live forever, and live your life like you will die the next day.",
+            "Proverbs are the daughters of experience.",
+            "Silence is often misinterpreted but never misquoted.",
+            "The errors of a wise man make your rule rather than the perfections of a fool.",
+            "The more things change, the more they stay the same.",
+            "The truly rich are those who enjoy what they have.",
+            "The wise do as much as they should, not as much as they can.",
+            "The wise understand by themselves; fools follow the reports of others.",
+            "What's good for the goose is good for the gander.",
+            "When you say one thing, the clever person understands three.",
+            "Wisdom is easy to carry but difficult to gather.",
+            "Wisdom is ofttimes nearer when we stoop than when we soar.",
+            "Wisdom is to live in the present, plan for the future and profit from the past.",
+            "Wonder is the beginning of wisdom.",
+            "You can lead a horse to water but you can't make him drink.",
+            "You can never plan the future by the past.",
+            "You can only die once.",
+            "You have to take the bitter with the sweet."
+        ]; 
+
+        const now = new Date();
+        const day_date = now.getDate(); // 1-31
+        const week_day = now.getDay() + 1; // 1-7
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1; // 1-12
+        
+        // Your original logic for the index
+        const my_key = (day_date * week_day * year * month) % wisdoms_text.length;
+        const selectedWisdom = wisdoms_text[my_key];
+
+        // Using await for the reply
+        await bot.reply(message, `**Today's Wisdom**\n\n> ${selectedWisdom}`);
     });
-}
+};
