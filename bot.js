@@ -140,5 +140,10 @@ bot.enrichCommand = function (message, command) {
 
 
     return "`" + command + "`";
-}
+};
+
+// Start the internal webserver
+controller.webserver.listen(process.env.PORT || 10000, () => {
+    console.log(`Webhook handler is listening on port ${process.env.PORT || 10000}`);
+});
 
