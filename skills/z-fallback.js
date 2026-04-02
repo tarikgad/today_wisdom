@@ -3,31 +3,33 @@
 //
 module.exports = function (controller) {
 
-    // Use a 'message' event with a slight delay or a specific check
     controller.on('message,direct_message', async (bot, message) => {
 
-        // 1. Ignore if this is a message FROM the bot itself
-        if (message.user === bot.identity.id) {
+        // 1. Only respond to actual text messages
+        // This prevents the bot from responding to 'room join' or 'file upload' events
+        if (message.type !== 'message' || !message.text) {
             return;
         }
 
-        // 2. Ignore if the message was already handled by a 'hears' command
-        // In Botkit v4, 'hears' events usually stop the propagation if 
-        // they are matched, but we add this for extra safety.
+        // 2. Check if another skill (Hears) already handled this
         if (message.handled) {
             return;
         }
 
-        // 3. Check if the message matches any of your 'hears' keywords.
-        // This is a manual safety check to prevent double-replying to 'help' or 'wisdom'
-        const commands = ['help', 'about', 'ping', 'wisdom', 'who', 'uptime'];
-        const input = message.text ? message.text.toLowerCase().trim() : '';
+        // 3. Manual check for known commands to prevent the "Double Reply"
+        const input = message.text.toLowerCase().trim();
+        const knownCommands = ['help', 'about', 'ping', 'wisdom', 'who', 'uptime'];
         
-        if (commands.includes(input)) {
+        if (knownCommands.includes(input)) {
             return;
         }
 
-        // 4. If we got here, it's a true 'blabla' message
+        // 4. Final safety: If the message is from a bot (Webex Bot flag)
+        // This is a more reliable way than checking bot.identity.id
+        if (message.bot_id) {
+            return;
+        }
+
         let text = "I'm sorry, I didn't quite understand that. ";
         text += "\nTry typing `help` to see what I can do.";
 
