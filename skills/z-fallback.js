@@ -12,9 +12,9 @@ module.exports = function (controller) {
         }
 
         // 2. Check if another skill (Hears) already handled this
-        if (message.handled) {
-            return;
-        }
+        //if (message.handled) {
+        //    return;
+        //}
 
         // 3. Manual check for known commands to prevent the "Double Reply"
         const input = message.text.toLowerCase().trim();
