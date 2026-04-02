@@ -48,7 +48,7 @@ console.log("Bot is online and listening for Webex Webhooks!");//
 
 
 // Load env variables 
-var env = require('node-env-file');
+var env = require('dotenv');
 env(__dirname + '/.env');
 
 
