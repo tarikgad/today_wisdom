@@ -56,8 +56,6 @@ env(__dirname + '/.env');
 // BotKit initialization
 //
 
-var Botkit = require('botkit');
-
 if (!process.env.SPARK_TOKEN) {
     console.log("Could not start as bots require a Cisco Spark API access token.");
     console.log("Please add env variable SPARK_TOKEN on the command line or to the .env file");
