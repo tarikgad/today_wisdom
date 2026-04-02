@@ -14,10 +14,9 @@ module.exports = function (controller) {
             "version": "1.0.0"
         };
 
-        let text = "### Bot Metadata\n";
-        text += "```json\n";
+        let text = "Bot Metadata\n";
         text += JSON.stringify(stats, null, 4);
-        text += "\n```";
+        text += "\n";
 
         await bot.reply(message, text);
     });
