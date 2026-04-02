@@ -9,8 +9,8 @@
     "node": ">=18.x"
   },
   "dependencies": {
-    "botkit": "^4.14.1",
-    "botbuilder-adapter-webex": "^4.14.1",
+    "botkit": "^4.15.0",
+    "botbuilder-adapter-webex": "^1.0.10",
     "follow-redirects": "^1.15.4",
     "dotenv": "^16.4.0"
   }
