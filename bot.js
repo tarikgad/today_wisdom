@@ -98,16 +98,10 @@ bot.commons["support"] = process.env.support;
 bot.commons["nickname"] = process.env.BOT_NICKNAME || "unknown";
 
 // Start Bot API
-controller.setupWebserver(process.env.PORT || 3000, function (err, webserver) {
-    controller.createWebhookEndpoints(webserver, bot, function () {
-        console.log("Cisco WebEx Teams: Webhooks set up!");
-    });
+const port = process.env.PORT || 10000;
 
-    // installing Healthcheck
-    webserver.get('/ping', function (req, res) {
-        res.json(bot.commons);
-    });
-    console.log("Cisco WebEx Teams: healthcheck available at: " + bot.commons.healthcheck);
+controller.webserver.listen(port, () => {
+    console.log(`Webhook handler is listening on port ${port}`);
 });
 
 // Load skills
