@@ -3,7 +3,7 @@
 //
 module.exports = function (controller) {
 
-    controller.on('message,direct_message', async (bot, message) => {
+    controller.hears('message,direct_message', async (bot, message) => {
 
         // 1. Only respond to actual text messages
         // This prevents the bot from responding to 'room join' or 'file upload' events
@@ -12,9 +12,9 @@ module.exports = function (controller) {
         }
 
         // 2. Check if another skill (Hears) already handled this
-        //if (message.handled) {
-        //    return;
-        //}
+        if (message.handled) {
+            return;
+        }
 
         // 3. Manual check for known commands to prevent the "Double Reply"
         const input = message.text.toLowerCase().trim();
