@@ -1,18 +1,17 @@
 {
-  "version": "0.1.0",
+  "name": "webex-bot",
+  "version": "1.0.0",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
   },
-  "keywords": [
-    "ciscospark",
-    "botkit",
-    "devnet"
-  ],
-  "license": "MIT",
+  "engines": {
+    "node": ">=18.x"
+  },
   "dependencies": {
-    "follow-redirects": ">=1.14.7"
-    "botkit": "^4.8.1",
-    "node-env-file": "^0.1.8"
+    "botkit": "^4.14.1",
+    "botbuilder-adapter-webex": "^4.14.1",
+    "follow-redirects": "^1.15.4",
+    "dotenv": "^16.4.0"
   }
 }
