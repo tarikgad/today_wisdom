@@ -4,19 +4,28 @@
 //
 module.exports = function (controller) {
 
-    controller.on('bot_space_join', function (bot, message) {
-        var welcome = "Hi";
-        if (process.env.BOT_NICKNAME) {
-            welcome += ", I am the **"+ process.env.BOT_NICKNAME + "** bot";
+    // In Botkit v4, 'membersAdded' is the event for joining a space
+    controller.on('membersAdded', async(bot, message) => {
+        
+        // Ensure the "member added" is actually the bot itself
+        // (This prevents the bot from saying 'Hi' every time a human joins)
+        if (message.incoming_message.from.id === bot.getConfig().adapter.identity.id) {
+            
+            let welcome = "Hi";
+            if (process.env.BOT_NICKNAME) {
+                welcome += `, I am the **${process.env.BOT_NICKNAME}** bot`;
+            }
+            welcome += "! Type `help` to learn more about my skills.";
+
+            // Use await for modern async/await pattern
+            const newMessage = await bot.reply(message, welcome);
+
+            // Check if it's a group space to show the mention hint
+            if (message.roomType === "group") {
+                // Using bot.enrichCommand from your bot.js
+                const helpCmd = bot.enrichCommand(message, "help");
+                await bot.reply(message, `_Note that this is a 'Group' Space. I will answer only if mentioned: for help, type ${helpCmd}_`);
+            }
         }
-        welcome += "! Type `help` to learn more about my skills.";
-        bot.reply(message, welcome
-            , function (err, newMessage) {
-                if (newMessage.roomType == "group") {
-                    bot.reply(message, "_Note that this is a 'Group' Space. \
-                       I will answer only if mentionned:<br/> \
-                       for help, type "+ bot.enrichCommand(newMessage, "help") + "_");
-                }
-            });
     });
 }
