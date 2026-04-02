@@ -33,13 +33,20 @@ controller.webserver.get('/ping', (req, res) => {
 });
 
 // 5. Load Skills (Maintains your original architecture)
-const skillsPath = path.join(__dirname, 'skills');
-if (fs.existsSync(skillsPath)) {
-    fs.readdirSync(skillsPath).forEach((file) => {
-        require(path.join(skillsPath, file))(controller);
-        console.log(`Loaded skill: ${file}`);
-    });
-}
+const skillsPath = path.join(__dirname, "skills");
+fs.readdirSync(skillsPath).forEach(function (file) {
+    // Only load files that end in .js
+    if (file.endsWith(".js")) {
+        try {
+            require("./skills/" + file)(controller);
+            console.log("Loaded skill: " + file);
+        } catch (err) {
+            console.log("Could not load skill: " + file + " Error: " + err.message);
+        }
+    } else {
+        console.log("Skipping non-JS file: " + file);
+    }
+});
 
 console.log("Bot is online and listening for Webex Webhooks!");//
 // Copyright (c) 2017 Cisco Systems
