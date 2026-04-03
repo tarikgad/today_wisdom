@@ -30,7 +30,7 @@ const botStatus = {
 };
 
 controller.webserver.get('/ping', (req, res) => {
-    res.json(botStatus);
+    res.send('pong');
 });
 
 // 5. Load Skills (Maintains your original architecture)
