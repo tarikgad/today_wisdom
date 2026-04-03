@@ -3,23 +3,14 @@
 //
 module.exports = function (controller) {
 
-    controller.on('message,direct_message', async (bot, message) => {
+    controller.hears(['.*'], 'direct_message,direct_mention', function(bot, message) {
 
-        // 2. Check if another skill (Hears) already handled this
+        // Check if another skill (Hears) already handled this
         if (message.handled) {
-            await bot.reply(message, message.handled);
             return;
         }
 
-        // 3. Manual check for known commands to prevent the "Double Reply"
-        const input = message.text.toLowerCase().trim();
-        const knownCommands = ['help', 'about', 'ping', 'wisdom', 'who', 'uptime'];
-        
-        if (knownCommands.includes(input)) {
-            return;
-        }
-
-        // 4. Final safety: If the message is from a bot (Webex Bot flag)
+        // If the message is from a bot (Webex Bot flag)
         // This is a more reliable way than checking bot.identity.id
         if (message.bot_id) {
             return;
