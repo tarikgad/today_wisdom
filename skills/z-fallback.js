@@ -3,12 +3,7 @@
 //
 module.exports = function (controller) {
 
-    controller.hears(['.*'], 'direct_message,direct_mention', function(bot, message) {
-
-        // Check if another skill (Hears) already handled this
-        if (message.handled) {
-            return;
-        }
+    controller.on('direct_message,direct_mention', function(bot, message) {
 
         // If the message is from a bot (Webex Bot flag)
         // This is a more reliable way than checking bot.identity.id
