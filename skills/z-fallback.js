@@ -3,13 +3,7 @@
 //
 module.exports = function (controller) {
 
-    controller.hears(['.*'],'direct_message,direct_mention,message', async(bot, message) {
-
-        // If the message is from a bot (Webex Bot flag)
-        // This is a more reliable way than checking bot.identity.id
-        if (message.bot_id) {
-            return;
-        }
+    controller.on('direct_message,direct_mention,message', async(bot, message) {
 
         let text = "I'm sorry, I didn't quite understand that. ";
         text += "\nTry typing `help` to see what I can do.";
