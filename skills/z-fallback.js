@@ -5,13 +5,6 @@ module.exports = function (controller) {
 
     controller.on('message,direct_message', async (bot, message) => {
 
-        // 1. Only respond to actual text messages
-        // This prevents the bot from responding to 'room join' or 'file upload' events
-        if (message.type !== 'message' || !message.text) {
-            await bot.reply(message, message.type + " -- " + message.text);
-            return;
-        }
-
         // 2. Check if another skill (Hears) already handled this
         if (message.handled) {
             await bot.reply(message, message.handled);
