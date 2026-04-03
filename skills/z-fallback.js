@@ -1,13 +1,10 @@
-//
-// Fallback Skill: Handles any message that doesn't match a command
-//
-module.exports = function (controller) {
+// skills/z-fallback.js
+module.exports = function(controller) {
 
-    controller.on('direct_message,direct_mention,message', async(bot, message) {
-
-        let text = "I'm sorry, I didn't quite understand that. ";
-        text += "\nTry typing `help` to see what I can do.";
-
-        await bot.reply(message, text);
+    controller.hears(['^(?!(help|about|ping|wisdom)).*$'], 'direct_message,direct_mention', async (bot, message) => {
+        
+        const response = "I'm sorry, I didn't quite understand that. Try typing `help`.";
+        
+        await bot.reply(message, response);
     });
 }
